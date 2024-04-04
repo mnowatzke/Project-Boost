@@ -1,10 +1,99 @@
-[gd_scene load_steps=4 format=3 uid="uid://bl0ihguchy6fp"]
+[gd_scene load_steps=21 format=3 uid="uid://bl0ihguchy6fp"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_pkwie"]
+[ext_resource type="AudioStream" uid="uid://442yugch8gd0" path="res://Audio/SFX - Death Explosion.ogg" id="2_qcw8p"]
+[ext_resource type="AudioStream" uid="uid://c8vguq5h4led6" path="res://Audio/SFX - Success.ogg" id="3_a48e5"]
+[ext_resource type="AudioStream" uid="uid://dh8o61o2oiw8f" path="res://Audio/SFX - Main engine thrust.ogg" id="4_m7dkj"]
+[ext_resource type="PackedScene" uid="uid://ux6ivcx1ovdp" path="res://Particles/booster_particles.tscn" id="5_5fwnf"]
+[ext_resource type="PackedScene" uid="uid://dcecb8hw7dbrv" path="res://Particles/explosion_particles.tscn" id="6_tsmak"]
+[ext_resource type="PackedScene" uid="uid://jfwajmrh6ca7" path="res://Particles/success_particles.tscn" id="7_7u3hn"]
+[ext_resource type="Material" uid="uid://bb43ngplsfis2" path="res://addons/flexible_toon_shader/FlexibleToonMaterial.tres" id="8_1q728"]
+[ext_resource type="Shader" path="res://addons/flexible_toon_shader/flexible_toon.gdshader" id="9_10n6u"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_l61xp"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_a4xl5"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_qvxmr"]
+material = ExtResource("8_1q728")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 1.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8fji1"]
+render_priority = 0
+shader = ExtResource("9_10n6u")
+shader_parameter/albedo = Color(0.74902, 0.705882, 1, 0.65098)
+shader_parameter/clamp_diffuse_to_max = false
+shader_parameter/cuts = 2
+shader_parameter/wrap = 0.0
+shader_parameter/steepness = 1.0
+shader_parameter/use_attenuation = true
+shader_parameter/use_specular = true
+shader_parameter/specular_strength = 1.0
+shader_parameter/specular_shininess = 16.0
+shader_parameter/use_rim = false
+shader_parameter/rim_width = 8.0
+shader_parameter/rim_color = Color(1, 1, 1, 1)
+shader_parameter/use_ramp = false
+shader_parameter/use_borders = false
+shader_parameter/border_width = 0.01
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_713gg"]
+top_radius = 0.0
+bottom_radius = 0.2
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wmm1i"]
+albedo_color = Color(1, 0.313726, 0.282353, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3eqxp"]
+top_radius = 0.1
+height = 0.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yvqet"]
+render_priority = 0
+shader = ExtResource("9_10n6u")
+shader_parameter/albedo = Color(0.74902, 0.705882, 1, 0.65098)
+shader_parameter/clamp_diffuse_to_max = false
+shader_parameter/cuts = 2
+shader_parameter/wrap = 0.0
+shader_parameter/steepness = 1.0
+shader_parameter/use_attenuation = true
+shader_parameter/use_specular = true
+shader_parameter/specular_strength = 1.0
+shader_parameter/specular_shininess = 16.0
+shader_parameter/use_rim = false
+shader_parameter/rim_width = 8.0
+shader_parameter/rim_color = Color(1, 1, 1, 1)
+shader_parameter/use_ramp = false
+shader_parameter/use_borders = false
+shader_parameter/border_width = 0.01
+
+[sub_resource type="PrismMesh" id="PrismMesh_ave6p"]
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n5v1x"]
+render_priority = 0
+shader = ExtResource("9_10n6u")
+shader_parameter/albedo = Color(0.74902, 0.705882, 1, 0.65098)
+shader_parameter/clamp_diffuse_to_max = false
+shader_parameter/cuts = 2
+shader_parameter/wrap = 0.0
+shader_parameter/steepness = 1.0
+shader_parameter/use_attenuation = true
+shader_parameter/use_specular = true
+shader_parameter/specular_strength = 1.0
+shader_parameter/specular_shininess = 16.0
+shader_parameter/use_rim = false
+shader_parameter/rim_width = 8.0
+shader_parameter/rim_color = Color(1, 1, 1, 1)
+shader_parameter/use_ramp = false
+shader_parameter/use_borders = false
+shader_parameter/border_width = 0.01
+
+[sub_resource type="PrismMesh" id="PrismMesh_nc6yw"]
+size = Vector3(1, 1, 0.1)
 
 [node name="Player" type="RigidBody3D"]
 axis_lock_linear_z = true
@@ -17,9 +106,64 @@ angular_damp = 3.0
 script = ExtResource("1_pkwie")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("CylinderMesh_l61xp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CylinderShape3D_a4xl5")
+
+[node name="ExplosionAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_qcw8p")
+volume_db = -7.57
+
+[node name="SuccessAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_a48e5")
+volume_db = -7.495
+
+[node name="RocketAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_m7dkj")
+volume_db = 7.207
+
+[node name="BoosterParticles" parent="." instance=ExtResource("5_5fwnf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+emitting = false
+
+[node name="RightBoosterParticles" parent="." instance=ExtResource("5_5fwnf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, -1, 0)
+emitting = false
+
+[node name="LeftBoosterParticles" parent="." instance=ExtResource("5_5fwnf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, -1, 0)
+emitting = false
+
+[node name="ExplosionParticles" parent="." instance=ExtResource("6_tsmak")]
+
+[node name="SuccessParticles" parent="." instance=ExtResource("7_7u3hn")]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("CylinderMesh_qvxmr")
+skeleton = NodePath("Cockpit")
+
+[node name="Cockpit" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("ShaderMaterial_8fji1")
+mesh = SubResource("CylinderMesh_713gg")
+skeleton = NodePath("../..")
+
+[node name="Bottom" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.718127, 0)
+material_override = SubResource("StandardMaterial3D_wmm1i")
+mesh = SubResource("CylinderMesh_3eqxp")
+
+[node name="Wing1" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.198943, 0)
+material_override = SubResource("ShaderMaterial_yvqet")
+mesh = SubResource("PrismMesh_ave6p")
+
+[node name="Wing2" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.178428, 0)
+material_override = SubResource("ShaderMaterial_n5v1x")
+mesh = SubResource("PrismMesh_nc6yw")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
